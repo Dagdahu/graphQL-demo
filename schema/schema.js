@@ -7,10 +7,10 @@ const {
 } = require('graphql');
 
 // Dummy data
-const books = [
+let books = [
     {
         id: "1",
-        name: "Lord Of The Ring",
+        name: "Lord Of The Ring : The Fellowship Of The Ring",
         genre: "Fantasy",
         authorId: "1",
     },
@@ -34,7 +34,7 @@ const books = [
     },
 ];
 
-const authors = [
+let authors = [
     {
         id: "1",
         name: "J.R.R Tolkien",
@@ -133,15 +133,23 @@ const Mutation = new GraphQLObjectType({
             args: {
                 name: { type: GraphQLString },
                 genre: { type: GraphQLString },
-                author: { type: AuthorType },
+                authorId: { type: GraphQLID },
             },
             resolve(parent, args) {
-
+                const newBook = {
+                    id: (books.length + 1).toString(),
+                    name: args.name,
+                    genre: args.genre,
+                    authorId: args.authorId,
+                };
+                books = [...books, newBook];
+                return newBook;
             }
         }
     }
 });
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation,
 });

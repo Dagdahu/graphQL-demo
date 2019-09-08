@@ -129,3 +129,34 @@ With following variables :
   "withAuthor": false
 }
 ```
+
+#### Mutations
+
+Accessing data is cool, but have you tried mutating data ?
+In the `Docs` panel, we can see that a mutation is provided, let's give it a try !
+Here is a mutation query with an explicit name and mandatory arguments.
+```
+mutation AddBook($name: String, $genre: String, $authorId: ID) {
+  addBook(name:$name, genre:$genre, authorId:$authorId) {
+    id,
+    name
+  }
+}
+```
+We can then fill the variables with some dummy data in `Query variables` to try it out :
+```
+{
+  "name": "Lord Of The Ring: The Two Thrones",
+  "genre": "fantasy",
+  "authorId": "1"
+}
+```
+If it worked, it should send back the last piece of data you added (as defined in `schema.js`, but the answer is up to you).
+We can then try to to retrieve the new list of books :
+```
+{
+    books {
+        name
+    }
+}
+```
